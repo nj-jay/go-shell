@@ -1,17 +1,15 @@
 package gosh
 
 import (
-
-	"fmt"
 	"github.com/nj-jay/go-shell/gosh/command"
 	"io"
-	"strings"
 )
+
 
 func interpret() error {
 
 	// read user input
-	input, err := readInput()
+	formatInput, err := shellPrompt.formatInput()
 
 	if err != nil {
 
@@ -23,31 +21,31 @@ func interpret() error {
 		return err
 	}
 
-	input = strings.TrimRight(input, "\r\n")
-
-	fmt.Print("$ ")
 
 	// if no input is given, skip the cycle
-	if input == "" {
+	if len(formatInput) == 0 {
 
 		return nil
 
-	} else if input == "ls" {
+	} else if formatInput[0] == "ls" {
 
-		command.Ls(".")
+		if len(formatInput) == 1 {
 
-	} else {
+			command.Ls(".")
 
-		fmt.Println("go-shell: command not found")
+		} else {
 
-		fmt.Println()
-	}
+			command.Ls(formatInput[1])
+		}
+
+
+	} else if formatInput[0] == "cd" {
+		    command.Cd(formatInput)
+		}
 
 
 	return nil
 }
 
-func readInput() (string, error) {
 
-	return reader.ReadString('\n')
-}
+

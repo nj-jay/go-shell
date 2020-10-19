@@ -1,11 +1,9 @@
 package command
 
 import (
-
 	"fmt"
 	"github.com/fatih/color"
 	"io/ioutil"
-	"os"
 )
 
 func Ls(path string) {
@@ -15,8 +13,6 @@ func Ls(path string) {
 	if err != nil {
 
 		fmt.Println("no this dictionary")
-
-		os.Exit(0)
 	}
 
 	for _, f := range info {

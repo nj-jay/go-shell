@@ -1,11 +1,12 @@
 package gosh
 
 import (
-
     "bufio"
     "fmt"
+    "github.com/nj-jay/go-shell/gosh/command"
     "os"
     "os/user"
+    "strings"
 )
 
 const (
@@ -35,10 +36,13 @@ func initialize() {
 
     reader = bufio.NewReader(os.Stdin)
 
+    command.Cd([]string{"cd"})
+
+
 }
 
 
-func (*ShellPrompt) PrintHeader(){
+func (*ShellPrompt) PrintHeader() {
 
     CurrentUser, _ := user.Current()
 
@@ -52,4 +56,13 @@ func (*ShellPrompt) PrintHeader(){
         " in " + CurrentPath + "\n" + "$ ")
 }
 
+func (*ShellPrompt) formatInput() ([]string, error) {
 
+    input, err := reader.ReadString('\n')
+
+    input = strings.TrimRight(input, "\r\n")
+
+    formatInputFields := strings.Fields(input)
+
+    return formatInputFields, err
+}
