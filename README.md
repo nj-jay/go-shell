@@ -30,6 +30,7 @@ work
 
 # jay@nj in /home/jay
 $ cd work
+# jay@nj in /home/jay/work
 $ ls
 
 #结果
