@@ -1,12 +1,14 @@
 package command
 
 import (
+
 	"fmt"
 	"os"
+
 )
 
 // Cd changes the shell's directory
-func Cd(argv []string) error {
+func Cd(argv []string) {
 
 	if len(argv) == 1 {
 
@@ -30,7 +32,6 @@ func Cd(argv []string) error {
 	} else if argv[1][0:1] == "~" {
 
 		// if formatInput == "cd ~/work"
-
 		err := os.Chdir(os.Getenv("HOME") + argv[1][1:])
 
 		if err != nil {
@@ -46,14 +47,9 @@ func Cd(argv []string) error {
 		then change path
 		*/
 
-		wd, err := os.Getwd()
+		wd, _ := os.Getwd()
 
-		if err != nil {
-
-			return err
-		}
-
-		err = os.Chdir(wd + "/" + argv[1])
+		err := os.Chdir(wd + "/" + argv[1])
 
 		if err != nil {
 
@@ -62,5 +58,4 @@ func Cd(argv []string) error {
 
 	}
 
-	return nil
 }

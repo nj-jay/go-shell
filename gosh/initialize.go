@@ -1,27 +1,15 @@
 package gosh
 
 import (
+
     "bufio"
     "fmt"
     "github.com/nj-jay/go-shell/gosh/command"
+    "github.com/spf13/viper"
+    "log"
     "os"
     "os/user"
     "strings"
-)
-
-const (
-
-    shellLoginText = `
-go-shell by nj-jay v0.0.1
-    `
-
-)
-
-var (
-
-    reader *bufio.Reader
-
-    shellPrompt *ShellPrompt
 
 )
 
@@ -30,32 +18,64 @@ type ShellPrompt struct {
 
 }
 
+type User struct {
+
+    Username string
+
+    Homedir string
+
+    CurrentPath string
+
+    Hostname string
+}
+
+
+
+var (
+
+    reader *bufio.Reader
+
+    shellPrompt *ShellPrompt
+
+    Usr User
+
+)
+
 func initialize() {
 
-    fmt.Println(shellLoginText)
-
-    reader = bufio.NewReader(os.Stdin)
-
+    //when working, direct to HOME directory
     command.Cd([]string{"cd"})
 
+    //get user's input
+    reader = bufio.NewReader(os.Stdin)
+
+
+}
+
+func (*User) GetUserInfo() {
+
+    currentUser, _ := user.Current()
+
+    Usr.Username = currentUser.Username
+
+    Usr.Hostname, _ = os.Hostname()
+
+    Usr.CurrentPath, _ = os.Getwd()
+
+    Usr.Homedir = currentUser.HomeDir
 
 }
 
 
-func (*ShellPrompt) PrintHeader() {
+func (*ShellPrompt) printHeader() {
 
-    CurrentUser, _ := user.Current()
+    themeName := shellPrompt.createConfig()
 
-    username := CurrentUser.Username
+    LoadTheme(themeName)
 
-    hostname, _ := os.Hostname()
-
-    CurrentPath, _ := os.Getwd()
-
-    fmt.Print("# " + username + "@" + hostname +
-        " in " + CurrentPath + "\n" + "$ ")
 }
 
+//将用户的输入进行格式化 如　" ls   ..  " -> ["ls", ".."]
 func (*ShellPrompt) formatInput() ([]string, error) {
 
     input, err := reader.ReadString('\n')
@@ -66,3 +86,51 @@ func (*ShellPrompt) formatInput() ([]string, error) {
 
     return formatInputFields, err
 }
+
+func (*ShellPrompt) createConfig() string {
+
+    Usr.GetUserInfo()
+
+    configFile := Usr.Homedir + "/config.toml"
+
+    if !command.PathExists(configFile) {
+
+        viper.SetConfigName("config")
+
+        viper.SetConfigType("toml")
+
+        viper.AddConfigPath(Usr.Homedir)
+
+        viper.Set("app_name", "go-shell")
+
+        viper.Set("Theme.theme", "yes")
+
+        err := viper.SafeWriteConfig()
+
+        if err != nil {
+
+            log.Fatal("write config failed: ", err)
+
+        }
+    }
+
+    viper.SetConfigName("config")
+
+    viper.SetConfigType("toml")
+
+    viper.AddConfigPath(Usr.Homedir)
+
+    err := viper.ReadInConfig()
+
+    if err != nil {
+
+        fmt.Println("error")
+    }
+
+    return viper.GetString("Theme.theme")
+}
+
+
+
+
+

@@ -5,6 +5,7 @@ import (
     "fmt"
     "io"
     "os"
+
 )
 
 func Run() {
@@ -14,10 +15,7 @@ func Run() {
 
     for {
 
-        //打印头部信息
-
-
-        shellPrompt.PrintHeader()
+        shellPrompt.printHeader()
 
         err := interpret()
 
@@ -37,9 +35,6 @@ func Run() {
         fmt.Println(err)
 
     }
-
-
-
 
 }
 

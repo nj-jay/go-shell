@@ -1,14 +1,22 @@
 package command
 
 import (
+
 	"fmt"
 	"github.com/fatih/color"
 	"io/ioutil"
+
 )
 
-func Ls(path string) {
+func Ls(argv []string) {
 
-	info, err := ioutil.ReadDir(path)
+	if len(argv) == 1 {
+
+		argv = []string{"ls", "."}
+
+	}
+
+	info, err := ioutil.ReadDir(argv[1][:])
 
 	if err != nil {
 

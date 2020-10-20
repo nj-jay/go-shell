@@ -1,10 +1,10 @@
 package gosh
 
 import (
-	"github.com/nj-jay/go-shell/gosh/command"
-	"io"
-)
 
+	"io"
+
+)
 
 func interpret() error {
 
@@ -21,28 +21,7 @@ func interpret() error {
 		return err
 	}
 
-
-	// if no input is given, skip the cycle
-	if len(formatInput) == 0 {
-
-		return nil
-
-	} else if formatInput[0] == "ls" {
-
-		if len(formatInput) == 1 {
-
-			command.Ls(".")
-
-		} else {
-
-			command.Ls(formatInput[1])
-		}
-
-
-	} else if formatInput[0] == "cd" {
-		    command.Cd(formatInput)
-		}
-
+	shellCommand(formatInput)
 
 	return nil
 }
