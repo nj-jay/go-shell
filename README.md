@@ -42,6 +42,8 @@ go-shell的配置文件$HOME/config.toml
 
 ### 目前支持的功能
 
+![](https://picture.nj-jay.com/go-shell_function.png)
+
 ```shell
 ./go-shell
 
