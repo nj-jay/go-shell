@@ -3,19 +3,28 @@ package gosh
 import (
 
     "fmt"
+    "github.com/nj-jay/go-shell/gosh/command"
     "io"
     "os"
-
 )
 
+//for循环不断获得用户输入的命令
+
 func Run() {
-    
-    // initialize the go-shell
-    initialize()
+
+
+    //direct to $HOME
+    command.Cd([]string{"cd"})
+
+    //清屏
+    command.Cls([]string{"cls"})
 
     for {
 
-        shellPrompt.printHeader()
+
+        shellPrompt.PrintHeader()
+
+        Initialize()
 
         err := interpret()
 
@@ -37,8 +46,3 @@ func Run() {
     }
 
 }
-
-
-
-
-

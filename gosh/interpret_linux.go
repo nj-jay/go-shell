@@ -6,10 +6,12 @@ import (
 
 )
 
+//shell解释器
+
 func interpret() error {
 
 	// read user input
-	formatInput, err := shellPrompt.formatInput()
+	formatInput, err := shellPrompt.FormatInput()
 
 	if err != nil {
 

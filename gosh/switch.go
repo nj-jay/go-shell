@@ -1,9 +1,13 @@
 package gosh
 
 import (
+
 	"fmt"
 	"github.com/nj-jay/go-shell/gosh/command"
+
 )
+
+//判断用户输入的命令
 
 func shellCommand(argv []string) {
 
@@ -32,6 +36,22 @@ func shellCommand(argv []string) {
 
 			command.Touch(argv)
 
+		case "help":
+
+			command.Help()
+
+		case "wget":
+
+			command.Wget(argv)
+
+		case "exit":
+
+			command.Exit(argv)
+
+		case "cls":
+
+			command.Cls(argv)
+
 		default:
 
 			fmt.Println("go-shell: command not found")
@@ -40,6 +60,6 @@ func shellCommand(argv []string) {
 		}
 	}
 
-
-
 }
+
+

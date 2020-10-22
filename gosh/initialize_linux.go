@@ -2,8 +2,8 @@ package gosh
 
 import (
 
-    "bufio"
     "fmt"
+    "github.com/carmark/pseudo-terminal-go/terminal"
     "github.com/nj-jay/go-shell/gosh/command"
     "github.com/spf13/viper"
     "log"
@@ -33,22 +33,23 @@ type User struct {
 
 var (
 
-    reader *bufio.Reader
+    reader string
 
     shellPrompt *ShellPrompt
 
     Usr User
 
+    term *terminal.Terminal
+
 )
 
-func initialize() {
+func Initialize() {
 
-    //when working, direct to HOME directory
-    command.Cd([]string{"cd"})
+    term, _ = terminal.NewWithStdInOut()
 
-    //get user's input
-    reader = bufio.NewReader(os.Stdin)
+    defer term.ReleaseFromStdInOut()
 
+    reader, _=term.ReadLine()
 
 }
 
@@ -67,27 +68,27 @@ func (*User) GetUserInfo() {
 }
 
 
-func (*ShellPrompt) printHeader() {
+func (*ShellPrompt) PrintHeader() {
 
-    themeName := shellPrompt.createConfig()
+    themeName := shellPrompt.CreateConfig()
 
     LoadTheme(themeName)
 
 }
 
 //将用户的输入进行格式化 如　" ls   ..  " -> ["ls", ".."]
-func (*ShellPrompt) formatInput() ([]string, error) {
+func (*ShellPrompt) FormatInput() ([]string, error) {
 
-    input, err := reader.ReadString('\n')
+    input := strings.Replace(reader, "\n\n", "", -1)
 
     input = strings.TrimRight(input, "\r\n")
 
     formatInputFields := strings.Fields(input)
 
-    return formatInputFields, err
+    return formatInputFields, nil
 }
 
-func (*ShellPrompt) createConfig() string {
+func (*ShellPrompt) CreateConfig() string {
 
     Usr.GetUserInfo()
 

@@ -7,6 +7,27 @@ import (
 
 )
 
+const (
+
+	 ContextCd = `
+	cd [path]
+			cd			进入家目录
+			cd ..			进入上一级目录
+			cd work			进入当前目录的上一级目录
+			cd /home/jay		进入/home/jay目录
+`
+
+)
+type HelpCd struct {
+
+
+}
+
+func (*HelpCd) help() string {
+
+	return ContextCd
+}
+
 // Cd changes the shell's directory
 func Cd(argv []string) {
 
@@ -38,6 +59,11 @@ func Cd(argv []string) {
 
 			fmt.Println("cd: 没有这个文件或目录")
 		}
+	} else if argv[1] == "--help" || argv[1] == "-h" {
+
+		helpCd := new(HelpCd)
+
+		fmt.Println(helpCd.help())
 
 	} else {
 
