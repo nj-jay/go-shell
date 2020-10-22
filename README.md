@@ -16,15 +16,27 @@
 
 linux/windows/mac
 
-## go-shell设计
+## go-shell配置文件
+
+
 
 本项目初衷完全采用linux bash理念
 
 如bash的配置文件为$HOME/.bashrc
 
-go-shell的配置文件$HOME/config.toml
+go-shell的配置文件为$HOME/config.toml
 
-修改配置文件既可以修改go-shell的一些参数
+修改配置文件~/HOME/config.toml可以go-shell的一些参数
+
+如主题默认的主题是yes, 可以更改为jay
+
+目前提供两种主题 yes 和 jay
+
+<img src="https://picture.nj-jay.com/2020.10.22.21.38.png" style="zoom: 80%;" />
+
+<img src="https://picture.nj-jay.com/2020.10.22.21.39.png" style="zoom: 67%;" />
+
+## 设计思路
 
 本项目设计的初衷是:
 
@@ -40,9 +52,17 @@ go-shell的配置文件$HOME/config.toml
 
 ##  使用go-shell
 
-### 目前支持的功能
 
-![](https://picture.nj-jay.com/go-shell_function.png)
+
+运行程序后
+
+输入help查看当前版本支持的命令
+
+输入cd --help或者cd -h可查看cd命令的具体使用
+
+
+
+## Example
 
 ```shell
 ./go-shell
