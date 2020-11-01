@@ -107,6 +107,8 @@ func (*ShellPrompt) createConfig() string {
 
 	configFile := "D:/go-shell/config.toml"
 
+	updateFile := "D:/go-shell/update.toml"
+
 	historyFile := "D:/go-shell/go-shell.history"
 
 	envPath := "D:/go-shell/bin"
@@ -115,10 +117,19 @@ func (*ShellPrompt) createConfig() string {
 
 	command.Mkdir([]string{"mkdir", envPath})
 
-	//创建.go-shell.history
+	//创建go-shell.history
 	if !command.PathExists(historyFile) {
 
 		f, _ := os.Create(historyFile)
+
+		defer f.Close()
+
+	}
+
+	//创建update.toml
+	if !command.PathExists(updateFile) {
+
+		f, _ := os.Create(updateFile)
 
 		defer f.Close()
 

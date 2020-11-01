@@ -63,6 +63,10 @@ go-shell的配置文件为d:/go-shell/config.toml
 > 我将所有编译好的二进制文件发布在服务器上
 >
 > 用户只需要输入update即可更新命令
+>
+> 如果出现命令无法使用的情况
+>
+> 请添加环境变量 d:/go-shell/bin
 
 另外为了用户更好程序使用go-shell
 
